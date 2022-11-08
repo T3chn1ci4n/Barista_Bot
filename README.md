@@ -6,4 +6,4 @@ This project is combining all my knowledge that I collected about strings, itera
 
 If you want to use this as a learning resource, I am happy for everyone to look at the code. 
 !!!WARNING!!!
-This code is NOT TO BE USED FOR COMMERCIAL OR ACADEMIC PURPOSES WITHOUT MY PERMISSION!
+This code is NOT TO BE USED FOR COMMERCIAL PURPOSES WITHOUT MY PERMISSION!

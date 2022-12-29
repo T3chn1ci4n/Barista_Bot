@@ -2,20 +2,30 @@
 from datetime import datetime
 import pyjokes
 
-# NOTE ; This Barista Bot isn't taking anyone's job and not yours.....
+# NOTE ; This Barista Bot isn't taking anyone's job. It is to allow people with hearing disablies to order at a cafe like environment.
 
 # This will say welcome to the coffee shop and will ask for the user for their name.
 print("Hello there, welcome to Dylaucino's Coffee shop.\n")
 
 name = input("What is your name?\n")
+# ! These are special EASTER EGGS that I have implemented into my barista bot when the user inputs a certain name.
+
+if name == "David":
+    print("Oh, hey your the CS50 teacher from Harved! My boss and I hope this project is looking good so far.")
+
+if name == "Brain":
+    print("Oh, hey your the CS50 teacher from Harved! My boss and I hope this project is looking good so far.")
+
+if name == "Doug":
+    print("Oh, hey your the CS50 teacher from Harved! My boss and I hope this project is looking good so far.")
 
 # Names that are not part of the easter egg will be print a simple hello [NAME] and a welcome.
-print(f"Hello {name}. We are glad that you come to order today!\n")
+else:
+    print(f"Hello {name}. We are glad that you come to order today!\n")
 
-# This will ask the user or the customer for what type of service they would like in a loop.
-# If the service does not exist then will rewind back to the same question. 
-# If the service does exist, then it will break the loop.
-menu = "Black_Coffee ($1.5)\nEspresso ($1.0)\nLatte ($2.0)\nCappuccino ($2.5)\nAmericano ($2.3)\nDoppio($3.0)\nFlat_White ($3.5)\n"
+# This will ask the user or the customer for what type of coffee they would like in a loop. If the coffee does not exist then will rewind back to the same question and if the coffee does exist, then it will break the loop.
+menu = "Black ($1.5)\nEspresso ($1.0)\nLatte ($2.0)\nCappuccino ($2.5)\nAmericano ($2.3)\nDoppio($3.0)\nFlat_White ($3.5)\n"
+
 while True:
     selection = input(f"What services would you like {name}. J for [Joke], C for [Coffee], T for [Time] and Q for [Quit] ")
     selection = selection.lower()
@@ -27,7 +37,7 @@ while True:
     elif selection in ["c", "coffee"]:
         break
 
-    elif  selection in ["t", "time"]:
+    elif selection in ["t", "time"]:
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         print(f"The current time is {current_time}\n")
@@ -35,8 +45,8 @@ while True:
     elif selection in ["q", "quit"]: 
         quit("\nThank you for choosing us to serve you!")
     else:
-        print("Please select options that are available!\n")   
-# If the coffee service is selected, prompts the user to choose a coffee type. 
+        print("Please select options that are available!\n") 
+
 while True:
     coffee = input(f"\n{name}, We have a range of coffees to order including sizes, here is the menu\n\nWe have got\n{menu}")
     coffee = coffee.lower()
@@ -65,8 +75,7 @@ while True:
     else:
         print("Sorry, We don't have that. \nPlease select one of the coffees above.\n")
 
-# This while true loop will ask for a size cup for the coffee to break the loop.
-# It will prompt the user to please choose the sides above if they choose something like extra small for example.
+# This while true loop will ask for a size cup for the coffee to break the loop. It will prompt the user to please choose the sides above if they choose something like extra small for example.
 while True:
 
     size = input("And what size do you want out of Small ($1.0), Medium ($1.5) or Large? ($2.0)\n")
@@ -97,29 +106,26 @@ total = float(coffeeCost) + float(sizeCost)  *  float(amount)
 # This line of code is a no brainer but it will ask how many cups does the user want.
 while True:
     
-# The line of code below, will do the calculations
-# Prompts for the payment of the order.
+# The line of code below, will do the calculations and ask for the payment of the order.
     
 
-    transaction = input("Thank you, that will be " + "$" +  str(total) + " please.\n$")
+    transaction = input(f"Thank you, that will be ${total} please.\n$")
 
     paid = float(transaction) - float(total)
-# These conditional statements will see if the payment is equal or greater than the cost of the order.
-# If the payments is less than the cost f the order than it will reject the payment 
-# Start to ask the payment again. if the payment id greater however, then the barista bot will give back some changes
+# These conditional statements will see if the payment is equal or greater than the cost of the order. If the payments is less than the cost f the order than it will reject the payment and start to ask the payment again. if the payment id greater however, then the barista bot will give back some changes
     if float(amount) > float(1.0):
         if float(transaction) > float(total):
             print(f"Here is your {amount} {size} {coffee}s and your ${paid} of changes.\n")
             break
 
         elif float(transaction) == float(total):
-            print(f"Here is your {amount} {size} {coffee}.\n")
+            print(f"Here is your {amount} {size} {coffee}s.\n")
             break
 
         else:
             print(f"Sorry, You need ${total} to be able to pay the {amount} {size} {coffee}s.\n")
 
-    elif float(amount) == float(1.0):
+    else:
         if float(transaction) > float(total):
             print(f"Here is your {amount} {size} {coffee} and your ${paid} of changes.\n")
             break
@@ -131,6 +137,4 @@ while True:
         else:
             print(f"Sorry, You need ${total} to be able to pay the {amount} {size} {coffee}s.\n")
 
-    else:
-        print()
 print("Thank you for ordering at Dylaucino's Coffee shop and have a nice day\n")

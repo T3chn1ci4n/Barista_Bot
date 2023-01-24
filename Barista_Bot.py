@@ -1,46 +1,58 @@
-# Programing a Bot to say "Hello" and to be a Barista.
+# program to create a barista bot for a coffee shop. 
+# This Barista Bot is designed to make it easier for people with hearing disabilities to order at a café-like environment.
 from datetime import datetime
-import pyjokes
+from pyjokes import get_joke
 
-# NOTE ; This Barista Bot isn't taking anyone's job. It is to allow people with hearing disablies to order at a cafe like environment.
+# function to display the current time
+def clock():
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print(f"The current time is {current_time}\n")
 
-# This will say welcome to the coffee shop and will ask for the user for their name.
+
+#  created a dictionary that maps names to responses.
 print("Hello there, welcome to Dylaucino's Coffee shop.\n")
 
-name = input("What is your name?\n")
 # ! These are special EASTER EGGS that I have implemented into my barista bot when the user inputs a certain name.
+responses = {
+    "Dylan": "Oh, hey Boss! We hope you are having a great day today! How is day going?",
+}
+# Getting the user's name and checking for the existance of the name in the dict
+name = input("What is your name?\n")
 
-if name == "David":
-    print("Oh, hey your the CS50 teacher from Harved! My boss and I hope this project is looking good so far.")
-
-if name == "Brain":
-    print("Oh, hey your the CS50 teacher from Harved! My boss and I hope this project is looking good so far.")
-
-if name == "Doug":
-    print("Oh, hey your the CS50 teacher from Harved! My boss and I hope this project is looking good so far.")
-
-# Names that are not part of the easter egg will be print a simple hello [NAME] and a welcome.
+# check if the name is a key in the dictionary, and if so, print the corresponding value
+if name in responses:
+    while True:
+        print(responses[name])
+        Q = input("\n").lower()
+        # check the followup question here
+        if Q in ["good", "g"]:
+            print("\nThat is good!")
+            break
+        elif Q in ["bad", "b"]: 
+            print("\nOh, Well hopefully things get better.")
+            break
+        else:
+            print("Pardon, Not to be rude but you didn't answer my question?")
 else:
-    print(f"Hello {name}. We are glad that you come to order today!\n")
+    print(f"Hello, {name}, We are so glad you come to order today")
 
-# This will ask the user or the customer for what type of coffee they would like in a loop. If the coffee does not exist then will rewind back to the same question and if the coffee does exist, then it will break the loop.
-menu = "Black ($1.5)\nEspresso ($1.0)\nLatte ($2.0)\nCappuccino ($2.5)\nAmericano ($2.3)\nDoppio($3.0)\nFlat_White ($3.5)\n"
 
 while True:
+    # prompt user for service selection
     selection = input(f"What services would you like {name}. J for [Joke], C for [Coffee], T for [Time] and Q for [Quit] ")
     selection = selection.lower()
 
+    # if the user selects 'joke', get a random joke
     if selection in ["j", "joke"]:
-        My_joke = pyjokes.get_joke(language="en", category="all")
+        My_joke = get_joke(language="en", category="all")
         print(f"{My_joke}\n")
-
+    # if the user selects 'coffee', break out of the loop
     elif selection in ["c", "coffee"]:
         break
 
     elif selection in ["t", "time"]:
-        now = datetime.now()
-        current_time = now.strftime("%H:%M:%S")
-        print(f"The current time is {current_time}\n")
+        clock()
         
     elif selection in ["q", "quit"]: 
         quit("\nThank you for choosing us to serve you!")
@@ -48,70 +60,76 @@ while True:
         print("Please select options that are available!\n") 
 
 while True:
+    menu = "Black ($1.5)\nEspresso ($1.0)\nLatte ($2.0)\nCappuccino ($2.5)\nAmericano ($2.3)\nDoppio($3.0)\nFlat_White ($3.5)\n"
+
     coffee = input(f"\n{name}, We have a range of coffees to order including sizes, here is the menu\n\nWe have got\n{menu}")
-    coffee = coffee.lower()
-    if coffee in ["black"]:
-        coffeeCost = 1.5
-        break
-    elif coffee in ["espresso"]:
-        coffeeCost = 1.0
-        break
-    elif coffee in ["latte"]:
-        coffeeCost = 2.0
-        break
-    elif coffee in ["cappuccino"]:
-        coffeeCost = 2.5
-        break
-    elif coffee in ["americano"]:
-        coffeeCost = 2.3
-        break
-    elif coffee in ["doppio"]:
-        coffeeCost = 3
-        break
-    elif coffee in ["flat_white"]:
-        coffeeCost = 3.5
-        break
+    coffee.lower()
 
+    coffee_selection = {
+    "black": 2,
+    "latte": 2.5, 
+    "flat_white": 3, 
+    "espresso" : 2.5, 
+    "cappuccino" : 2.5, 
+    "americano" : 2.3, 
+    "doppio" : 3}
+
+    if coffee in coffee_selection:
+        print(f"The price of a {coffee} is ${coffee_selection[coffee]}")
+        yn = input("Will you like to continue with that order?\n")
+        if yn in ["y", "yes"]: 
+            coffeeCost = coffee_selection[coffee] 
+            break
+        elif yn in ["n", "no"]: continue
+
+        else: 
+            print("Please select if you like to continue with that order!\n")
     else:
-        print("Sorry, We don't have that. \nPlease select one of the coffees above.\n")
+        print("Sorry, We don't have that.\nPlease select one of the coffees above.\n")
 
-# This while true loop will ask for a size cup for the coffee to break the loop. It will prompt the user to please choose the sides above if they choose something like extra small for example.
+
 while True:
 
     size = input("And what size do you want out of Small ($1.0), Medium ($1.5) or Large? ($2.0)\n")
     size = size.lower()
 
-    if size in ["small"]:
-        sizeCost = 1.0
-        break
-    elif size in ["medium"]:
-        sizeCost = 1.5
-        break
-    elif size in ["large"]:
-        sizeCost = 2.0
-        break
+    size_selection = {
+        "small" : 1,
+        "medium" : 1.5,
+        "large" : 2
+    }
+
+    if size in size_selection:
+        print(f"The price of a {size} {coffee} is ${coffeeCost + size_selection[size]}")
+        yn = input("Will you like to continue with that order?\n\n")
+        if yn in ["y", "yes"]: 
+            sizeCost = size_selection[size] 
+            break
+        elif yn in ["n", "no"]: continue
+        else: 
+            print("Please select if you like to continue with that order!\n")
     else:
         print("Please Choose the sizes above.\n")
 
 while True:
-
-    amount = input("And how many do you want?\n")
-
-    if amount.isdigit():
+    try:
+        amount = int(input("And how many do you want?\n"))
         break
-    else:
-        print("Please choose a number!\n")
+    except ValueError:
+        print("Please choose a digital number!\n")
 
 total = float(coffeeCost) + float(sizeCost)  *  float(amount)
-# This line of code is a no brainer but it will ask how many cups does the user want.
+
 while True:
-    
-# The line of code below, will do the calculations and ask for the payment of the order.
-    
+    while True:
+        transaction = input(f"Thank you, that will be ${total} please.\n$")
+        try:
+            float(transaction)
+            paid = float(transaction) - float(total)
+            break
+        except ValueError:
+            print("Please choose a number!\n")
 
-    transaction = input(f"Thank you, that will be ${total} please.\n$")
-
-    paid = float(transaction) - float(total)
 # These conditional statements will see if the payment is equal or greater than the cost of the order. If the payments is less than the cost f the order than it will reject the payment and start to ask the payment again. if the payment id greater however, then the barista bot will give back some changes
     if float(amount) > float(1.0):
         if float(transaction) > float(total):
